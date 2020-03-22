@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">pawpaw</string>
+
+    <string-array name = "type_of_location">
+        <item>Please choose</item>
+        <item>Restaurant</item>
+        <item>Library</item>
+        <item>Bakery</item>
+        <item>Bar</item>
+        <item>Movie Theater</item>
+        <item>Night Club</item>
+        <item>Store</item>
+        <item>Supermarket</item>
+        <item>Jewelry Store</item>
+        <item>Shopping Mall</item>
+        <item>Spa</item>
+    </string-array>
+</resources>
