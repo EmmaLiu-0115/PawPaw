@@ -18,5 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void gotoAddLocationPage (View view) {
         startActivity(new Intent(MainActivity.this, AddALocation.class));
+
     }
 }
