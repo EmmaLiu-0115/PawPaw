@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "641584968742",
+    "firebase_url": "https://pawpaw-4099c.firebaseio.com",
+    "project_id": "pawpaw-4099c",
+    "storage_bucket": "pawpaw-4099c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641584968742:android:7b387ad3ce1999b6ce22e7",
+        "android_client_info": {
+          "package_name": "com.example.pawpaw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641584968742-tedopjctak6o4v1ilaagqt3m36lt6oqr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pawpaw",
+            "certificate_hash": "dd40b91caf745994301bad9317cb5cabde89299c"
+          }
+        },
+        {
+          "client_id": "641584968742-rbt3bclipqf8bg28qi43rfgkpgebd5se.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVg0TjVtCMtQVdfMQWGkjBh_YCSRD2Y_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641584968742-rbt3bclipqf8bg28qi43rfgkpgebd5se.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
