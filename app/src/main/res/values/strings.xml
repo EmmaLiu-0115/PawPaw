@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">pawpaw</string>
 
-    <string-array name = "type_of_location">
+    <string-array name="type_of_location">
         <item>Please choose</item>
         <item>Restaurant</item>
         <item>Library</item>
