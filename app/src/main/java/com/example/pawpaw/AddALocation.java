@@ -1,8 +1,10 @@
 package com.example.pawpaw;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,13 +14,28 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.storage.FirebaseStorage;
+
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddALocation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Button submitButton;
     EditText reviewText;
-    String locationText;
+    String typeOfLocation;
+
+    //Storage
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +68,32 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 String reText = reviewText.getText().toString();
 
 
+
+                //private String locationID;
+                //    private String locationName;
+                //    private String locationType;
+                //    private String locationAddress;
+                //    private double avgPrice;
+                //    private double avgRating;
+                //    private List<String> photos;
+                List<String> photos = new ArrayList<>();
+                Location location = new Location("latitude+longitude","location name", typeOfLocation,
+                        "location address", price.getRating(),rating.getRating(),photos);
+
+
+                db.collection("locations").document("latitude+longitude").set(location);
+
             }
         });
+
 
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        locationText = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),locationText,Toast.LENGTH_SHORT).show();
+        typeOfLocation = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(),typeOfLocation,Toast.LENGTH_SHORT).show();
 
     }
 
