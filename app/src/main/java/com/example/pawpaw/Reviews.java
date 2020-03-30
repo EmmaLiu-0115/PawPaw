@@ -3,8 +3,8 @@ package com.example.pawpaw;
 public class Reviews {
     private String userID;
     private String locationID;
-    private int price;
-    private int rating;
+    private double price;
+    private double rating;
     private String review;
     private String photo;
 
@@ -12,7 +12,7 @@ public class Reviews {
 
     }
 
-    public Reviews(String userID, String locationID, int price, int rating, String review, String photo){
+    public Reviews(String userID, String locationID, double price, double rating, String review, String photo){
         this.locationID = locationID;
         this.photo = photo;
         this.price = price;
@@ -25,11 +25,11 @@ public class Reviews {
         return locationID;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

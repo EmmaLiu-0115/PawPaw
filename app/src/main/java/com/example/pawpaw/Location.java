@@ -16,7 +16,7 @@ public class Location {
     }
 
     public Location (String locationID, String locationName, String locationType, String locationAddress,
-                    double avgPrice, double avgRating, List<String> photos ){
+                    double avgPrice, double avgRating, List<String> photos){
         this.locationID = locationID;
         this.locationName = locationName;
         this.locationType = locationType;
@@ -52,5 +52,32 @@ public class Location {
 
     public String getLocationType() {
         return locationType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Location l = (Location) o;
+        boolean same = true;
+        for (int i = 0; i<this.getPhotos().size(); i++) {
+            if (!this.getPhotos().get(i).equals(l.getPhotos().get(i))){
+                same = false;
+                break;
+            }
+        }
+
+        return locationID.equals(l.locationID) &&
+                locationType.equals(l.locationType) &&
+                locationName.equals(l.locationName) &&
+                locationAddress.equals(l.locationAddress) &&
+                avgPrice == l.avgPrice &&
+                avgRating == l.avgRating &&
+                same
+                ;
     }
 }

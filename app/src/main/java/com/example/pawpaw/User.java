@@ -7,17 +7,23 @@ public class User {
     private String password;
     private int phoneNumber;
     private String intro;
+    private int privacy;
+    private String image;
+
 
     public User(){
     }
 
-    public User(String userID, String name, String area, String password, int phoneNumber, String intro){
+    public User(String userID, String name, String area, String password, int phoneNumber,
+                String intro, int privacy, String image){
         this.userID = userID;
         this.name = name;
         this.area = area;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.intro = intro;
+        this.privacy = privacy;
+        this.image = image;
     }
 
     public String getUserID (){
@@ -40,4 +46,11 @@ public class User {
         return intro;
     }
 
+    public int getPrivacy() {
+        return privacy;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

@@ -1,10 +1,8 @@
 package com.example.pawpaw;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,18 +12,8 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-//import com.google.firebase.storage.FirebaseStorage;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AddALocation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -34,7 +22,7 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     String typeOfLocation;
 
     //Storage
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Database db = new Database(this);
     //FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
@@ -69,32 +57,47 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-                //private String locationID;
-                //    private String locationName;
-                //    private String locationType;
-                //    private String locationAddress;
-                //    private double avgPrice;
-                //    private double avgRating;
-                //    private List<String> photos;
+
                 List<String> photos = new ArrayList<>();
+                photos.add("address 1");
+                photos.add("address 2");
+                photos.add("address 3");
                 Location location = new Location("latitude+longitude","location name", typeOfLocation,
                         "location address", price.getRating(),rating.getRating(),photos);
 
 
-                db.collection("locations").document("latitude+longitude").set(location);
+                //TEST:
+                //db.addLocationToDB(location);
+
+                //db.addReviewsToDB(new Reviews("Eileen","latitude+longitude",3.5,5,"this is a review", "photo address"));
+                //db.addUserToDB(new User("Eileen","Eileen","Madison","xxx",12345678,"intro",0,"image address"));
+                //db.addFriendToDB("Eileen","Jim");
+                //db.addFriendToDB("Eileen","Amy");
+
+
+                //db.deleteAFriendInDB("Eileen","Amy");
+                //db.deleteLocationFromDB("latitude+longitude");
+                //db.deleteUserFromDB("Eileen");
+                //db.deleteLocationPhotosInDB("latitude+longitude","address 1");
+
+
+                //db.updateLocationInDB("latitude+longitude", "locationType","lab");
+                //Log.d("add a location", l.getLocationID());
+
+                //db.collection("locations").document("latitude+longitude").set(location);
+
+
+
+                //db.getReviewsForAccountPage("Eileen");
 
             }
         });
-
-
-
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         typeOfLocation = parent.getItemAtPosition(position).toString();
         Toast.makeText(parent.getContext(),typeOfLocation,Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
