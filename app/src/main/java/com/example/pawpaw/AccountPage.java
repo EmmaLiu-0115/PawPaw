@@ -15,6 +15,20 @@ public class AccountPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean privacy = prefs.getBoolean("switch_preference_1", true);
+        String name = prefs.getString("edit_text_preference_4",  "");
+        String phone = prefs.getString("edit_text_preference_3",  "");
+        String description = prefs.getString("edit_text_preference_5",  "");
+        String location = prefs.getString("edit_text_preference_6",  "");
+        NameText = (TextView) findViewById(R.id.profile_name);
+        PhoneText = (TextView) findViewById(R.id.phone);
+        DescriptionText = (TextView) findViewById(R.id.info);
+        Location = (TextView) findViewById(R.id.location);
+        NameText.setText(name);
+        PhoneText.setText(phone);
+        DescriptionText.setText(description);
+        Location.setText(location);
     }
 
     public void clickFunction (View view){

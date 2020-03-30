@@ -12,5 +12,4 @@ public class PhoneSignIn extends AppCompatActivity {
         setContentView(R.layout.activity_phone_sign_in);
     }
 
-
 }

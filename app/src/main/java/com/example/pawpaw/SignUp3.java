@@ -54,8 +54,13 @@ public class SignUp3 extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(SignUp3.this, AccountPage.class);
+                    Bundle bundle = getIntent().getExtras();
+                    String Name = bundle.getString("name");
+                    String FinalPhone = bundle.getString("FinalPhone");
+                    Intent intent = new Intent(SignUp3.this, Description.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("name", Name);
+                    intent.putExtra("FinalPhone", FinalPhone);
                     startActivity(intent);
                 }
                 else{
