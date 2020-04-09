@@ -27,5 +27,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToActivitySignUp (){
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
+
+    public void gotoAddLocationPage (View view) {
+        startActivity(new Intent(MainActivity.this, AddALocation.class));
+
     }
 }

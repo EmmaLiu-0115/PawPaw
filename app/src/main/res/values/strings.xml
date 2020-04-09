@@ -15,4 +15,5 @@
         <item>Shopping Mall</item>
         <item>Spa</item>
     </string-array>
+    <string name="title_activity_map_home_page">Map</string>
 </resources>
