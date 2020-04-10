@@ -1,9 +1,12 @@
 package com.example.pawpaw;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapHomePage extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, LocationListener {
 
@@ -28,8 +32,10 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private GoogleApiClient mGoogleApiClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private Location mLastLocation;
-
-
+    private FloatingActionButton LogoButton;
+    private FloatingActionButton MessageButton;
+    private FloatingActionButton ListButton;
+    private FloatingActionButton ContactButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +52,40 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
+        LogoButton = (FloatingActionButton) findViewById(R.id.logo);
+        MessageButton = (FloatingActionButton) findViewById(R.id.message);
+        ContactButton = (FloatingActionButton) findViewById(R.id.contact);
+        ListButton = (FloatingActionButton) findViewById(R.id.list);
+        LogoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapHomePage.this, AddALocation.class));
+            }
+        });
+        MessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                startActivity(new Intent(MapHomePage.this, AddALocation.class));
+            }
+        });
+        ContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapHomePage.this, AccountPage.class));
+            }
+        });
+        ListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapHomePage.this, ListMainActivity.class));
+            }
+        });
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // 2
         mGoogleApiClient.connect();
     }
 
@@ -79,8 +112,6 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMarkerClickListener(this);
     }
