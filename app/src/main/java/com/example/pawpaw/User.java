@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String area;
     private String password;
-    private int phoneNumber;
+    private String phoneNumber;
     private String intro;
     private int privacy;
     private String image;
@@ -14,7 +14,7 @@ public class User {
     public User(){
     }
 
-    public User(String userID, String name, String area, String password, int phoneNumber,
+    public User(String userID, String name, String area, String password, String phoneNumber,
                 String intro, int privacy, String image){
         this.userID = userID;
         this.name = name;

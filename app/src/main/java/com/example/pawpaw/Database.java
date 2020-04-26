@@ -24,11 +24,23 @@ public class Database {
     FirebaseFirestore db;
     private static final String TAG = "Database";
     private AddALocation aal;
+    private AccountPage ap;
+    private GetUserProfileLoc loc;
     private Location ll;
 
     public Database(AddALocation aal){
         db = FirebaseFirestore.getInstance();
         this.aal = aal;
+    }
+
+    public Database(AccountPage ap){
+        db = FirebaseFirestore.getInstance();
+        this.ap = ap;
+    }
+
+    public Database(GetUserProfileLoc loc){
+        db = FirebaseFirestore.getInstance();
+        this.loc = loc;
     }
 
     //TODO: Write and read to database

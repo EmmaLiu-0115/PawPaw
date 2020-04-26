@@ -64,6 +64,7 @@
             android:title="Edit Location"
             android:summary="Change the location that is displayed to other users"
             />
+
         <EditTextPreference
             android:defaultValue=""
             android:key="edit_text_preference_5"
@@ -84,5 +85,7 @@
             android:title="Logout"
             android:summary="Log out of your account"
             />
+
+
     </PreferenceCategory>
 </PreferenceScreen>

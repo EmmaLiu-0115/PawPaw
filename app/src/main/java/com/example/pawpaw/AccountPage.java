@@ -4,15 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class AccountPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Database database = new Database(this);
+        //database.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -21,14 +27,19 @@ public class AccountPage extends AppCompatActivity {
         String phone = prefs.getString("edit_text_preference_3",  "");
         String description = prefs.getString("edit_text_preference_5",  "");
         String location = prefs.getString("edit_text_preference_6",  "");
+        String Img = prefs.getString("edit_text_preference_10", "");
+        Uri MyImg = Uri.parse(Img);
+        Bundle bundle = getIntent().getExtras();
         NameText = (TextView) findViewById(R.id.profile_name);
         PhoneText = (TextView) findViewById(R.id.phone);
         DescriptionText = (TextView) findViewById(R.id.info);
         Location = (TextView) findViewById(R.id.location);
+        ProfilePic = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile_image);
         NameText.setText(name);
         PhoneText.setText(phone);
         DescriptionText.setText(description);
         Location.setText(location);
+        Picasso.with(this).load(MyImg).into(ProfilePic);
     }
 
     public void clickFunction (View view){
@@ -46,6 +57,7 @@ public class AccountPage extends AppCompatActivity {
     TextView PhoneText;
     TextView DescriptionText;
     TextView Location;
+    de.hdodenhof.circleimageview.CircleImageView ProfilePic;
     @Override
     public void onResume() {
         super.onResume();

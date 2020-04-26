@@ -41,7 +41,7 @@ public class Description extends AppCompatActivity {
         goToNext();
     }
     public void goToNext (){
-        Intent intent = new Intent(this, AccountPage.class);
+        Intent intent = new Intent(this, ProfileImage.class);
         startActivity(intent);
     }
 }
