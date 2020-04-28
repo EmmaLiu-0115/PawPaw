@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 public class AccountPage extends AppCompatActivity {
 
+    Database db = new Database(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,15 @@ public class AccountPage extends AppCompatActivity {
         DescriptionText.setText(description);
         Location.setText(location);
 
+        db.getUserFromDB("123");
         //REMEMBER TO UPDATE THE SERVER AFTER UPDATING SETTINGS
     }
+
+
+
+
+    public void getUserData(User user){
+
+    }
+
 }

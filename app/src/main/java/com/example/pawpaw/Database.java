@@ -15,21 +15,37 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Database {
     FirebaseFirestore db;
     private static final String TAG = "Database";
-    private AddALocation aal;
-    private Location ll;
 
-    public Database(AddALocation aal){
+    private AddALocation aal;
+    private AccountPage ap;
+
+    public static Location ll = new Location();
+
+    /*public Database(AddALocation aal){
         db = FirebaseFirestore.getInstance();
         this.aal = aal;
+    }*/
+
+    public Database(AccountPage ap){
+        this.ap = ap;
+        db = FirebaseFirestore.getInstance();
     }
+
+    public Database(AddALocation aal){
+        this.aal = aal;
+        db = FirebaseFirestore.getInstance();
+    }
+
 
     //TODO: Write and read to database
 
@@ -38,6 +54,7 @@ public class Database {
     Add location to database
     */
     public void addLocationToDB (Location location) {
+        Log.i("Database", "add location to DB");
         db.collection("locations");
         db.collection("locations").document(location.getLocationID()).set(location);
     }
@@ -52,23 +69,18 @@ public class Database {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Location location= documentSnapshot.toObject(Location.class);
+                Location location = documentSnapshot.toObject(Location.class);
+                //ll.setLocationType(location.getLocationType());
 
+                aal.getLocationData(location);
                 //TODO: Call the function which uses location info from the other class
 
-                ll = location;
                 String id = location.getLocationID();
                 Log.d(TAG, id);
             }
         });
 
     }
-
-    public Location getLl (){
-        return ll;
-    }
-
-
 
     /*
     Update String type field in location from database
@@ -82,7 +94,7 @@ public class Database {
     /*
     Update int type field in location from database
     */
-    public void updateLocationInDB (String document, String field, int value){
+    public void updateLocationInDB (String document, String field, double value){
         db.collection("locations").document(document).update(
                 field, value
         );
@@ -149,6 +161,7 @@ public class Database {
                 User user = documentSnapshot.toObject(User.class);
 
                 //TODO: Call the function which uses user info from the other class
+                ap.getUserData(user);
 
                 Log.d(TAG, "Successfully get user from database");
             }
