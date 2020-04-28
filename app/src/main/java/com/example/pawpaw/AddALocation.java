@@ -74,12 +74,7 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 reviewText = (EditText) findViewById(R.id.editTextBox);
                 String reText = reviewText.getText().toString();
 
-
-
-
-                location.setLocationID("123");
-
-
+                location.setLocationID("1234");
 
                 location.setLocationName("madison");
                 location.setLocationType(typeOfLocation);
@@ -89,34 +84,14 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 location.getPhotos().add(locationAddress);
 
                 Log.w("AAL","check point 1.0");
-                //db.addLocationToDB(location);
+                db.addLocationToDB(location);
                 Log.w("AAL","check point 2.0");
                 //Test with get method
+                db.addReviewsToDB(new Reviews("Eileen","123",price.getRating(),rating.getRating(),reText,locationAddress));
                 db.getLocationFromDB("123");
                 //Log.w("AAL",Database.ll.getLocationType());
                 //TEST:
                 //db.addLocationToDB(location);
-
-                //db.addReviewsToDB(new Reviews("Eileen","latitude+longitude",3.5,5,"this is a review", "photo address"));
-                //db.addUserToDB(new User("Eileen","Eileen","Madison","xxx",12345678,"intro",0,"image address"));
-                //db.addFriendToDB("Eileen","Jim");
-                //db.addFriendToDB("Eileen","Amy");
-
-
-                //db.deleteAFriendInDB("Eileen","Amy");
-                //db.deleteLocationFromDB("latitude+longitude");
-                //db.deleteUserFromDB("Eileen");
-                //db.deleteLocationPhotosInDB("latitude+longitude","address 1");
-
-
-                //db.updateLocationInDB("latitude+longitude", "locationType","lab");
-                //Log.d("add a location", l.getLocationID());
-
-                //db.collection("locations").document("latitude+longitude").set(location);
-
-
-
-                //db.getReviewsForAccountPage("Eileen");
 
             }
         });
@@ -150,7 +125,8 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 locationAddress = data.getStringExtra("locationAddress");
                 Log.i("AddALocation", "!!!"+locationAddress);
 
-
+                //Display image
+                //FirebaseStorage storage = FirebaseStorage.getInstance(); (I have declared it at the beginning of the class)
                 StorageReference storageRef = storage.getReference();
 
                 storageRef.child(locationAddress).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -165,17 +141,18 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                         // Handle any errors
                     }
                 });
-
             }
         }
     }
 
+    //Helper method to display image
     private void helper(String uri){
         ImageView imageView = (ImageView) findViewById(R.id.imageView4);
         ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(uri, imageView);
         imageLoadAsyncTask.execute();
     }
 
+    //Helper function for database's getLocationFromDb
     public void getLocationData(Location ll){
         Log.i("Shawn", "get Location worked");
         if (ll.getLocationID().equals(location.getLocationID())){

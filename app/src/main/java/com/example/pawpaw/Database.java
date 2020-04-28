@@ -266,6 +266,7 @@ public class Database {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 result.add(document.toObject(Reviews.class));
 
+
                                 //TODO: Call the function which uses reviews info from the other class
 
                                 Log.d(TAG, document.getId() + " => " + document.getData());
