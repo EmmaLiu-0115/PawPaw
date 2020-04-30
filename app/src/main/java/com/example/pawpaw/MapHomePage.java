@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,6 +37,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private FloatingActionButton MessageButton;
     private FloatingActionButton ListButton;
     private FloatingActionButton ContactButton;
+    Database db = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
+
+
         LogoButton = (FloatingActionButton) findViewById(R.id.logo);
         MessageButton = (FloatingActionButton) findViewById(R.id.message);
         ContactButton = (FloatingActionButton) findViewById(R.id.contact);
@@ -81,6 +85,30 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                //myMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
+
+                //The code below demonstrate how to convert between LatLng and Location
+
+                //Convert LatLng to Location
+                Location location = new Location("Test");
+                location.setLatitude(point.latitude);
+                location.setLongitude(point.longitude);
+
+                //Convert Location to LatLng
+                LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(newLatLng)
+                        .title(newLatLng.toString());
+
+                mMap.addMarker(markerOptions);
+
+            }
+        });
     }
 
     @Override
@@ -92,28 +120,24 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     @Override
     protected void onStop() {
         super.onStop();
-        // 3
         if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
             mGoogleApiClient.disconnect();
         }
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMarkerClickListener(this);
+        mMap.setOnMarkerClickListener(this);mMap = googleMap;
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setMinZoomPreference(11);
+
+
+
+
     }
 
     @Override
@@ -121,9 +145,8 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
 
     }
     protected void placeMarkerOnMap(LatLng location) {
-        // 1
+
         MarkerOptions markerOptions = new MarkerOptions().position(location);
-        // 2
         mMap.addMarker(markerOptions);
     }
     private void setUpMap() {
@@ -143,8 +166,25 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
             if (mLastLocation != null) {
                 LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation
                         .getLongitude());
-                //add pin at user's location
                 placeMarkerOnMap(currentLocation);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(currentLocation)
+                        .title("Memorial Union Terrace")
+                        .snippet("Recommended by ##, ##, ##, 20+")
+                        .icon(BitmapDescriptorFactory.defaultMarker( BitmapDescriptorFactory.HUE_BLUE));
+
+                InfoData info = new InfoData();
+                info.setImage("snowqualmie");
+                info.setHotel("Type: attraction");
+                info.setFood("Rating : *****");
+                //info.setTransport("Reach the site by bus, car and train.");
+
+                CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(this);
+                mMap.setInfoWindowAdapter(customInfoWindow);
+
+                Marker m = mMap.addMarker(markerOptions);
+                m.setTag(info);
+                m.showInfoWindow();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
             }
         }
@@ -185,4 +225,6 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     public boolean onMarkerClick(Marker marker) {
         return false;
     }
+
+
 }

@@ -19,8 +19,8 @@ import android.widget.TextView;
 public class ListMainActivity extends AppCompatActivity {
 
     ListView listView;
-    String[] fruitNames = {"one","two","three","four","five"};
-    int[] fruitImages = {R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background};
+    String[] LocationName = {"Memory Union","Bascon","School of Bussiness","Van Valk","Gym"};
+    int[] LocationImage = {R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +35,8 @@ public class ListMainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
                 Intent intent = new Intent(getApplicationContext(),ListdataActivity.class);
-                intent.putExtra("name",fruitNames[i]);
-                intent.putExtra("image", fruitImages[i]);
+                intent.putExtra("name",LocationName[i]);
+                intent.putExtra("image", LocationImage[i]);
                 startActivity(intent);
 
             }
@@ -46,7 +46,7 @@ public class ListMainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return fruitNames.length;
+            return LocationName.length;
         }
 
         @Override
@@ -62,11 +62,11 @@ public class ListMainActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View convertView, ViewGroup parent) {
             View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
-            TextView name = view1.findViewById(R.id.fruits);
+            TextView name = view1.findViewById(R.id.Locations);
             ImageView image = view1.findViewById(R.id.images);
 
-            name.setText(fruitNames[i]);
-            image.setImageResource(fruitImages[i]);
+            name.setText(LocationName[i]);
+            image.setImageResource(LocationImage[i]);
             return view1;
         }
     }

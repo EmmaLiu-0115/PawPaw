@@ -24,11 +24,17 @@ public class Database {
     FirebaseFirestore db;
     private static final String TAG = "Database";
     private AddALocation aal;
+    private MapHomePage mp;
     private Location ll;
 
     public Database(AddALocation aal){
         db = FirebaseFirestore.getInstance();
         this.aal = aal;
+    }
+
+    public Database(MapHomePage mp){
+        this.mp = mp;
+        db = FirebaseFirestore.getInstance();
     }
 
     //TODO: Write and read to database

@@ -33,7 +33,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDZ3NZTqqZP_Y9F7O1MaGIm9kzHY5PHF_s" />
 
         <activity
             android:name=".MapHomePage"
@@ -57,7 +57,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDqvM8yuc7w2dfzyTeojfljpmW67hrDCi8" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

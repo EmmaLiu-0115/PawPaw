@@ -12,7 +12,7 @@
         tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/fruits"
+            android:id="@+id/Locations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
