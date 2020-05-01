@@ -25,6 +25,7 @@ public class Database {
     private static final String TAG = "Database";
     private AddALocation aal;
     private AccountPage ap;
+    private AddFriend af;
     private GetUserProfileLoc loc;
     private Location ll;
 
@@ -41,6 +42,11 @@ public class Database {
     public Database(GetUserProfileLoc loc){
         db = FirebaseFirestore.getInstance();
         this.loc = loc;
+    }
+
+    public Database(AddFriend af){
+        db = FirebaseFirestore.getInstance();
+        this.af = af;
     }
 
     //TODO: Write and read to database
@@ -159,7 +165,7 @@ public class Database {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User user = documentSnapshot.toObject(User.class);
-
+                //ap.g
                 //TODO: Call the function which uses user info from the other class
 
                 Log.d(TAG, "Successfully get user from database");

@@ -12,7 +12,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -22,7 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileImage"></activity>
+        <activity android:name=".AddFriend"></activity>
+        <activity android:name=".FriendList" />
+        <activity android:name=".ProfileImage" />
         <activity android:name=".GetUserProfileLoc" />
         <activity
             android:name=".ProfileLocation"
@@ -40,7 +42,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAilXM1mnkxSbCyZXIMp-6Fm18qwQISg0A" />
 
         <activity
             android:name=".MapHomePage"
@@ -64,7 +66,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAilXM1mnkxSbCyZXIMp-6Fm18qwQISg0A" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

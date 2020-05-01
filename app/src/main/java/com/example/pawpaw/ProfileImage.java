@@ -22,7 +22,6 @@ public class ProfileImage extends AppCompatActivity {
     ImageView Uploaded;
     private static final int PICK_IMAGE_REQUEST = 1;
     Button UploadButton;
-    EditText ImgName;
     private Uri ImgUri;
 
     @Override

@@ -19,12 +19,20 @@ public class AccountPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Database database = new Database(this);
         //database.
+
+        //Now I need to update the database
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String phone = prefs.getString("edit_text_preference_3",  "");
+        SharedPreferences.Editor editor = prefs.edit();
+        //TODO
+        database.getUserFromDB(phone);
+        editor.commit();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean privacy = prefs.getBoolean("switch_preference_1", true);
         String name = prefs.getString("edit_text_preference_4",  "");
-        String phone = prefs.getString("edit_text_preference_3",  "");
         String description = prefs.getString("edit_text_preference_5",  "");
         String location = prefs.getString("edit_text_preference_6",  "");
         String Img = prefs.getString("edit_text_preference_10", "");
@@ -51,8 +59,22 @@ public class AccountPage extends AppCompatActivity {
     }
 
     public void clickFunction2 (View view){
-
+        Intent intent = new Intent(this, AddALocation.class);
+        startActivity(intent);
     }
+
+    public void clickFunction3 (View view){
+        Intent intent = new Intent(this, AddFriend.class);
+        startActivity(intent);
+    }
+
+    public void clickFunction4 (View view){
+        Intent intent = new Intent(this, FriendList.class);
+        startActivity(intent);
+    }
+
+
+
     TextView NameText;
     TextView PhoneText;
     TextView DescriptionText;
@@ -67,6 +89,10 @@ public class AccountPage extends AppCompatActivity {
         String phone = prefs.getString("edit_text_preference_3",  "");
         String description = prefs.getString("edit_text_preference_5",  "");
         String location = prefs.getString("edit_text_preference_6",  "");
+
+        //TODO update db
+        Database database = new Database(this);
+        database.updateUserInDB(phone, "name", name);
         NameText = (TextView) findViewById(R.id.profile_name);
         PhoneText = (TextView) findViewById(R.id.phone);
         DescriptionText = (TextView) findViewById(R.id.info);
