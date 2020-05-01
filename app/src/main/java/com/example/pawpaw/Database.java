@@ -100,7 +100,7 @@ public class Database {
     /*
     Update int type field in location from database
     */
-    public void updateLocationInDB (String document, String field, int value){
+    public void updateLocationInDB (String document, String field, double value){
         db.collection("locations").document(document).update(
                 field, value
         );
