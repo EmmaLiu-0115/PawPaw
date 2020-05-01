@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -33,7 +34,6 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private Location mLastLocation;
     private FloatingActionButton LogoButton;
-    private FloatingActionButton MessageButton;
     private FloatingActionButton ListButton;
     private FloatingActionButton ContactButton;
 
@@ -53,19 +53,12 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
         LogoButton = (FloatingActionButton) findViewById(R.id.logo);
-        MessageButton = (FloatingActionButton) findViewById(R.id.message);
         ContactButton = (FloatingActionButton) findViewById(R.id.contact);
         ListButton = (FloatingActionButton) findViewById(R.id.list);
         LogoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MapHomePage.this, AddALocation.class));
-            }
-        });
-        MessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startActivity(new Intent(MapHomePage.this, AddALocation.class));
             }
         });
         ContactButton.setOnClickListener(new View.OnClickListener() {
@@ -110,10 +103,31 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMarkerClickListener(this);
+        mMap.setMinZoomPreference(11);
+
+        LatLng snowqualmie = new LatLng(43.0712741,-89.3911507);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(snowqualmie)
+                .title("Memorial Union Terrace")
+                .snippet("Recommended by ##, ##, ##, 20+")
+                .icon(BitmapDescriptorFactory.defaultMarker( BitmapDescriptorFactory.HUE_RED));
+
+        InfoData info = new InfoData();
+        info.setImage("snowqualmie");
+        info.setHotel("Type: attraction");
+        info.setFood("Rating : *****");
+
+        CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(this);
+        mMap.setInfoWindowAdapter(customInfoWindow);
+
+        Marker m = mMap.addMarker(markerOptions);
+        m.setTag(info);
+        m.showInfoWindow();
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(snowqualmie));
     }
 
     @Override
@@ -145,7 +159,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                         .getLongitude());
                 //add pin at user's location
                 placeMarkerOnMap(currentLocation);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
+//                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
             }
         }
     }

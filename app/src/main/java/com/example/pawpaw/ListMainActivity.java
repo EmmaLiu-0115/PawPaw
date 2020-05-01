@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,8 +20,9 @@ import android.widget.TextView;
 public class ListMainActivity extends AppCompatActivity {
 
     ListView listView;
-    String[] fruitNames = {"one","two","three","four","five"};
-    int[] fruitImages = {R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background,R.drawable.ic_launcher_background};
+    String[] fruitNames = {"Location1","Location2","Location3","Location4","Location5s"};
+    int[] fruitImages = {R.drawable.list,R.drawable.logo,R.drawable.contact,R.drawable.mess,R.drawable.ic_launcher_background};
+    Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,13 @@ public class ListMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_main);
 
         listView = findViewById(R.id.listview);
+        back= findViewById(R.id.button4);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ListMainActivity.this, MapHomePage.class));
+            }
+        });
         CursorAdapter cursorAdapter = new CursorAdapter();
 
         listView.setAdapter(cursorAdapter);
