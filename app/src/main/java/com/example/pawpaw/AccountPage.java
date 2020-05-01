@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 public class AccountPage extends AppCompatActivity {
 
+    Database db = new Database(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Database database = new Database(this);
@@ -102,6 +104,15 @@ public class AccountPage extends AppCompatActivity {
         DescriptionText.setText(description);
         Location.setText(location);
 
+        db.getUserFromDB("123");
         //REMEMBER TO UPDATE THE SERVER AFTER UPDATING SETTINGS
     }
+
+
+
+
+    public void getUserData(User user){
+
+    }
+
 }

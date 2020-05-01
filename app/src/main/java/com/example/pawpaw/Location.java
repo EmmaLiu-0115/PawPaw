@@ -1,5 +1,9 @@
 package com.example.pawpaw;
 
+import android.util.Log;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
@@ -30,28 +34,58 @@ public class Location {
         return avgPrice;
     }
 
+    public void setAvgPrice(double avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+
+
     public double getAvgRating() {
         return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public List<String> getPhotos() {
         return photos;
     }
 
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
+    }
+
     public String getLocationAddress() {
         return locationAddress;
+    }
+
+    public void setLocationAddress(String locationAddress) {
+        this.locationAddress = locationAddress;
     }
 
     public String getLocationID() {
         return locationID;
     }
 
+    public void setLocationID(String locationID) {
+        this.locationID = locationID;
+    }
+
     public String getLocationName() {
         return locationName;
     }
 
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
     public String getLocationType() {
         return locationType;
+    }
+
+    public void setLocationType(String locationType) {
+        this.locationType = locationType;
     }
 
     @Override
