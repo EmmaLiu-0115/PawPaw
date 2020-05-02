@@ -13,14 +13,18 @@ public class Location {
     private String locationAddress;
     private double avgPrice;
     private double avgRating;
+    private double latitude;
+    private double longtitude;
     private List<String> photos;
+    private List<String> reviewedUsers;
+    private List<String> reviewedUsersContent;
 
     public Location (){
 
     }
 
     public Location (String locationID, String locationName, String locationType, String locationAddress,
-                    double avgPrice, double avgRating, List<String> photos){
+                    double avgPrice, double avgRating, List<String> photos, List<String> reviewedUsers,List<String> reviewedUsersContent){
         this.locationID = locationID;
         this.locationName = locationName;
         this.locationType = locationType;
@@ -28,6 +32,24 @@ public class Location {
         this.avgRating = avgRating;
         this.locationAddress = locationAddress;
         this.photos = photos;
+        this.reviewedUsers = reviewedUsers;
+        this.reviewedUsersContent = reviewedUsersContent;
+    }
+
+    public List<String> getReviewedUsers() {
+        return reviewedUsers;
+    }
+
+    public void setReviewedUsers(List<String> reviewedUsers) {
+        this.reviewedUsers = reviewedUsers;
+    }
+
+    public List<String> getReviewedUsersContent() {
+        return reviewedUsersContent;
+    }
+
+    public void setReviewedUsersContent(List<String> reviewedUsersContent) {
+        this.reviewedUsersContent = reviewedUsersContent;
     }
 
     public double getAvgPrice() {
@@ -113,5 +135,21 @@ public class Location {
                 avgRating == l.avgRating &&
                 same
                 ;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongtitude(double longtitude) {
+        this.longtitude = longtitude;
     }
 }

@@ -24,8 +24,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,6 +46,8 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     String typeOfLocation;
     Location location = new Location();
     String locationAddress;
+    String userID;
+    String reText;
 
     TextView locationNameContent;
     TextView locationAddressContent;
@@ -78,8 +85,12 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
 
         Bundle bundle = getIntent().getParcelableExtra("bundle");
         LatLng currentLocation = bundle.getParcelable("currentLocation");
+        //TODO: get userID from intent
+        userID = "Eileen";
 
         location.setLocationID(String.valueOf(currentLocation.latitude)+","+String.valueOf(currentLocation.longitude));
+        location.setLatitude(currentLocation.latitude);
+        location.setLongtitude(currentLocation.longitude);
 
         Geocoder geocoder;
         List<Address> addresses;
@@ -116,20 +127,48 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 Toast.makeText(AddALocation.this, priceAndRating, Toast.LENGTH_LONG).show();
 
                 reviewText = (EditText) findViewById(R.id.editTextBox);
-                String reText = reviewText.getText().toString();
+                reText = reviewText.getText().toString();
 
-                location.setLocationType(typeOfLocation);
-                location.setAvgPrice(price.getRating());
-                location.setAvgRating(rating.getRating());
-                location.setPhotos(new ArrayList<String>());
-                location.getPhotos().add(locationAddress);
+                //Add location to database
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                DocumentReference ref = database.collection("locations").document(location.getLocationID());
 
-                Log.w("AAL","check point 1.0");
-                db.addLocationToDB(location);
-                Log.w("AAL","check point 2.0");
-                //Test with get method
-                db.addReviewsToDB(new Reviews("Eileen","123",price.getRating(),rating.getRating(),reText,locationAddress,"madison"));
-                db.getLocationFromDB("123");
+                ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            Location existLocation = document.toObject(Location.class);
+                            if (document.exists()) {
+                                db.updateLocationPhotosInDB(location.getLocationID(),locationAddress);
+                                db.updateLocationInDB(location.getLocationID(), "avgPrice", ((existLocation.getAvgPrice()+price.getRating())/2));
+                                db.updateLocationInDB(location.getLocationID(), "avgRating", ((existLocation.getAvgRating()+rating.getRating())/2));
+                                db.updatereviewedUsersInDB(location.getLocationID(),userID);
+                                db.updatereviewedUsersContentInDB(location.getLocationID(),reText);
+                                Log.d("AddALocation", "Update exist document to: " + document.getData());
+                            } else {
+                                location.setLocationType(typeOfLocation);
+                                location.setPhotos(new ArrayList<String>());
+                                location.getPhotos().add(locationAddress);
+                                location.setAvgPrice(price.getRating());
+                                location.setAvgRating(rating.getRating());
+                                db.addLocationToDB(location);
+                                location.setReviewedUsers(new ArrayList<String>());
+                                location.getReviewedUsers().add(userID);
+                                location.setReviewedUsersContent(new ArrayList<String>());
+                                location.getReviewedUsersContent().add(reText);
+                                Log.d("AddALocation", "Create a new location");
+                            }
+                        } else {
+                            Log.d("AddALocation", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+
+
+                db.addReviewsToDB(new Reviews(userID,location.getLocationID(),price.getRating(),rating.getRating(),reText,locationAddress,location.getLocationName()));
+                //db.getLocationFromDB("123");
                 //Log.w("AAL",Database.ll.getLocationType());
                 //TEST:
                 //db.addLocationToDB(location);

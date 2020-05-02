@@ -102,12 +102,33 @@ public class Database {
     }
 
     /*
+    Update reviewedUsers field in location from database
+    */
+    public void updatereviewedUsersInDB (String document, String value){
+        DocumentReference Ref = db.collection("locations").document(document);
+
+        // Automatically add a new photo address to the "photos" array field.
+        Ref.update("reviewedUsers", FieldValue.arrayUnion(value));
+    }
+
+    /*
+    Update reviewedUsers field in location from database
+    */
+    public void updatereviewedUsersContentInDB (String document, String value){
+        DocumentReference Ref = db.collection("locations").document(document);
+
+        // Automatically add a new photo address to the "photos" array field.
+        Ref.update("reviewedUsersContent", FieldValue.arrayUnion(value));
+    }
+
+
+    /*
     Update photo address field in location from database
     */
     public void updateLocationPhotosInDB (String document, String value){
         DocumentReference Ref = db.collection("locations").document(document);
 
-        // Atomically add a new photo address to the "photos" array field.
+        // Automatically add a new photo address to the "photos" array field.
         Ref.update("photos", FieldValue.arrayUnion(value));
     }
 

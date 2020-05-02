@@ -64,6 +64,8 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                 Intent addALocationIntent = new Intent(MapHomePage.this, AddALocation.class);
                 Bundle args = new Bundle();
                 args.putParcelable("currentLocation", currentLocation);
+                //TODO: send user ID
+
                 addALocationIntent.putExtra("bundle",args);
                 startActivity(new Intent(addALocationIntent));
             }
@@ -166,7 +168,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                         .getLongitude());
 
                 //add pin at user's location
-                placeMarkerOnMap(currentLocation);
+                //placeMarkerOnMap(currentLocation);
 //                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
             }
         }
