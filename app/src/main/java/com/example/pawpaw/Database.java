@@ -37,11 +37,6 @@ public class Database {
         this.aal = aal;
     }*/
 
-    public Database(ListMainActivity lma){
-        this.lma = lma;
-        db = FirebaseFirestore.getInstance();
-    }
-
     public Database(AccountPage ap){
         this.ap = ap;
         db = FirebaseFirestore.getInstance();
@@ -298,8 +293,6 @@ public class Database {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 result.add(document.toObject(Reviews.class));
-                                Log.w("Database", "getReviewsForLocationPage is called");
-                                lma.useReviewData(result);
                                 //TODO: Call the function which uses reviews info from the other class
 
                                 Log.d(TAG, document.getId() + " => " + document.getData());

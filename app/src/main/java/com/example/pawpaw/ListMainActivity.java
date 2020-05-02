@@ -21,8 +21,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -36,8 +41,6 @@ public class ListMainActivity extends AppCompatActivity {
     List<String> locationImages = new ArrayList<>();
     Button back;
 
-    Database db = new Database(this);
-
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
@@ -45,30 +48,62 @@ public class ListMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_main);
 
+        //How to use get method sample:
+        //Set id to search in Database
         String locationId ="ab";
-        db.getReviewsForLocationPage(locationId);
         Log.w("lma","count1");
-
 
         listView = findViewById(R.id.listview);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-                back= findViewById(R.id.button4);
-                back.setOnClickListener(new View.OnClickListener() {
+        //To get data from database
+        //A list to store all the results from database since a location can have several reviews
+        final List<Reviews> result = new ArrayList<>();
+
+        //Initiate the real firestore database
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        //Call the get method
+        database.collection("reviews")
+                .whereEqualTo("locationID", locationId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(ListMainActivity.this, MapHomePage.class));
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Put all results that we get from database in result list
+                                result.add(document.toObject(Reviews.class));
+
+                                Log.d("ListMainActivity", document.getId() + " => " + document.getData());
+                            }
+
+                            //Write logics of how to use the result list
+                            for (int i = 0; i<result.size(); i++){
+                                String name = result.get(i).getLocationName();
+                                locationNames.add(name);
+                                Log.w("lma", name);
+                                Log.w("size of locationImages", String.valueOf(locationNames.size()));
+                                locationImages.add(result.get(i).getPhoto());
+                                Log.w("lma", result.get(i).getPhoto());
+                                Log.w("size of locationImages", String.valueOf(locationImages.size()));
+                            }
+
+                            back= findViewById(R.id.button4);
+                            back.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(ListMainActivity.this, MapHomePage.class));
+                                }
+                            });
+                            ListMainActivity.CursorAdapter cursorAdapter = new ListMainActivity.CursorAdapter();
+
+                            listView.setAdapter(cursorAdapter);
+
+                        } else {
+                            Log.d("ListMainActivity", "Error getting documents: ", task.getException());
+                        }
                     }
                 });
-                ListMainActivity.CursorAdapter cursorAdapter = new ListMainActivity.CursorAdapter();
-
-                listView.setAdapter(cursorAdapter);
-
-            }
-        }, 2000);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,19 +120,6 @@ public class ListMainActivity extends AppCompatActivity {
 
     }
 
-    public void useReviewData(List<Reviews> listOfReviews){
-        for (int i = 0; i<listOfReviews.size(); i++){
-            String name = listOfReviews.get(i).getLocationName();
-            locationNames.add(name);
-            Log.w("lma", name);
-            Log.w("size of locationImages", String.valueOf(locationNames.size()));
-            locationImages.add(listOfReviews.get(i).getPhoto());
-            Log.w("lma", listOfReviews.get(i).getPhoto());
-            Log.w("size of locationImages", String.valueOf(locationImages.size()));
-        }
-        Log.w("lma","count2");
-
-    }
 
 
 
@@ -126,10 +148,6 @@ public class ListMainActivity extends AppCompatActivity {
 
             name.setText(locationNames.get(i));
 
-
-            //image.setImageResource(R.drawable.logo);
-
-
             // Get String data from Intent
             String locationAddress = "images/"+locationImages.get(i);
 
@@ -140,7 +158,7 @@ public class ListMainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Uri uri) {
                     helper(uri.toString());
-                    // Got the download URL for 'users/me/profile.png'
+                    // Got the download URL for the image
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

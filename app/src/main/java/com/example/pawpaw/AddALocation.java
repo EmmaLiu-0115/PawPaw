@@ -36,8 +36,6 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     Location location = new Location();
     String locationAddress;
 
-    //FirebaseStorage storage;
-
     private final int IMAGE_REQUEST = 73;
 
     //Storage
