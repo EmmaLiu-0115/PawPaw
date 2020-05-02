@@ -87,7 +87,7 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 db.addLocationToDB(location);
                 Log.w("AAL","check point 2.0");
                 //Test with get method
-                db.addReviewsToDB(new Reviews("Eileen","123",price.getRating(),rating.getRating(),reText,locationAddress));
+                db.addReviewsToDB(new Reviews("Eileen","123",price.getRating(),rating.getRating(),reText,locationAddress,"madison"));
                 db.getLocationFromDB("123");
                 //Log.w("AAL",Database.ll.getLocationType());
                 //TEST:
