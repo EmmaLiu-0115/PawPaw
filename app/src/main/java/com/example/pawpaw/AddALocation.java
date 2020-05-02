@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -90,7 +90,7 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
 
         location.setLocationID(String.valueOf(currentLocation.latitude)+","+String.valueOf(currentLocation.longitude));
         location.setLatitude(currentLocation.latitude);
-        location.setLongtitude(currentLocation.longitude);
+        location.setLongitude(currentLocation.longitude);
 
         Geocoder geocoder;
         List<Address> addresses;
@@ -173,6 +173,8 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 //TEST:
                 //db.addLocationToDB(location);
 
+                startActivity(new Intent(AddALocation.this,MapHomePage.class));
+
             }
         });
     }
@@ -246,5 +248,9 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
         } else {
             db.addLocationToDB(location);
         }
+    }
+
+    public void gotoMap(View view){
+        startActivity(new Intent(AddALocation.this,MapHomePage.class));
     }
 }

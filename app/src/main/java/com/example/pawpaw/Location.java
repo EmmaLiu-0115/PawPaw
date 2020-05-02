@@ -14,7 +14,7 @@ public class Location {
     private double avgPrice;
     private double avgRating;
     private double latitude;
-    private double longtitude;
+    private double longitude;
     private List<String> photos;
     private List<String> reviewedUsers;
     private List<String> reviewedUsersContent;
@@ -24,7 +24,7 @@ public class Location {
     }
 
     public Location (String locationID, String locationName, String locationType, String locationAddress,
-                    double avgPrice, double avgRating, List<String> photos, List<String> reviewedUsers,List<String> reviewedUsersContent){
+                    double avgPrice, double avgRating, double longitude, double latitude, List<String> photos, List<String> reviewedUsers,List<String> reviewedUsersContent){
         this.locationID = locationID;
         this.locationName = locationName;
         this.locationType = locationType;
@@ -34,6 +34,8 @@ public class Location {
         this.photos = photos;
         this.reviewedUsers = reviewedUsers;
         this.reviewedUsersContent = reviewedUsersContent;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public List<String> getReviewedUsers() {
@@ -141,15 +143,15 @@ public class Location {
         return latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

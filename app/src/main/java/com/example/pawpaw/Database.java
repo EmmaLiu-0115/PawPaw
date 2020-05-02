@@ -33,7 +33,6 @@ public class Database {
     private Location ll;
     private ListMainActivity lma;
 
-    public static Location ll = new Location();
 
     /*public Database(AddALocation aal){
         db = FirebaseFirestore.getInstance();
