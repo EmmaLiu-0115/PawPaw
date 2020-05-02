@@ -84,5 +84,7 @@
             android:title="Logout"
             android:summary="Log out of your account"
             />
+
+
     </PreferenceCategory>
 </PreferenceScreen>

@@ -28,6 +28,9 @@ public class Database {
 
     private AddALocation aal;
     private AccountPage ap;
+    private AddFriend af;
+    private GetUserProfileLoc loc;
+    private Location ll;
     private ListMainActivity lma;
 
     public static Location ll = new Location();
@@ -40,6 +43,16 @@ public class Database {
     public Database(AccountPage ap){
         this.ap = ap;
         db = FirebaseFirestore.getInstance();
+    }
+
+    public Database(GetUserProfileLoc loc){
+        db = FirebaseFirestore.getInstance();
+        this.loc = loc;
+    }
+
+    public Database(AddFriend af){
+        db = FirebaseFirestore.getInstance();
+        this.af = af;
     }
 
     public Database(AddALocation aal){

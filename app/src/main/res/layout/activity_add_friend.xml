@@ -5,49 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".Description">
-    <TextView
-        android:id="@+id/TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hi!"
-        android:textColor="#FFFFFF"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11"
-        app:layout_constraintHorizontal_bias="0.075"/>
+    tools:context=".AddFriend">
+
     <TextView
         android:id="@+id/TextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please write a short introduction"
+        android:text="Add a friend"
         android:textColor="#FFFFFF"
-        android:textSize="20dp"
+        android:textSize="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22"
+        app:layout_constraintVertical_bias="0.21"
         app:layout_constraintHorizontal_bias="0.15"/>
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="270dp"
-        android:layout_height="320dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
         android:ems="10"
+        android:hint="Full Phone Number"
         android:inputType="textPersonName"
         android:textColor="#C9FFFFFF"
         android:textColorHighlight="#00FFFFFF"
         android:textColorHint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <ImageButton
         android:id="@+id/next"
@@ -59,12 +48,11 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.38"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.92"
         app:srcCompat="?attr/actionModeCloseDrawable"
         android:onClick="clickFunction"
         android:background="@drawable/custom_button"
         android:scaleX="-1"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

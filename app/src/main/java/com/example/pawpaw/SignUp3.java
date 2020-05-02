@@ -103,7 +103,7 @@ public class SignUp3 extends AppCompatActivity {
     }
 
     public void goToNext (String phone, String name){
-        Intent intent = new Intent(this, SignUp3.class);
+        Intent intent = new Intent(this, Description.class);
         intent.putExtra("phone", phone);
         intent.putExtra("name", name);
         startActivity(intent);

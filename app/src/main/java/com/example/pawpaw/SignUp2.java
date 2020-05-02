@@ -49,7 +49,7 @@ public class SignUp2 extends AppCompatActivity {
     }
 
     public void goToNext (String FinalPhone, String name, String code, String Phone){
-        Intent intent = new Intent(this, SignUp3.class);
+        Intent intent = new Intent(this, Description.class);
         intent.putExtra("FinalPhone", FinalPhone);
         intent.putExtra("name", name);
         intent.putExtra("code", code);
