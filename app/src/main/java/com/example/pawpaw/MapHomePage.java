@@ -36,9 +36,11 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private FloatingActionButton LogoButton;
     private FloatingActionButton ListButton;
     private FloatingActionButton ContactButton;
+    private LatLng currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_home_page);
         if (mGoogleApiClient == null) {
@@ -55,10 +57,15 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         LogoButton = (FloatingActionButton) findViewById(R.id.logo);
         ContactButton = (FloatingActionButton) findViewById(R.id.contact);
         ListButton = (FloatingActionButton) findViewById(R.id.list);
+
         LogoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MapHomePage.this, AddALocation.class));
+                Intent addALocationIntent = new Intent(MapHomePage.this, AddALocation.class);
+                Bundle args = new Bundle();
+                args.putParcelable("currentLocation", currentLocation);
+                addALocationIntent.putExtra("bundle",args);
+                startActivity(new Intent(addALocationIntent));
             }
         });
         ContactButton.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +162,9 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         if (null != locationAvailability && locationAvailability.isLocationAvailable()) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
-                LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation
+                currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation
                         .getLongitude());
+
                 //add pin at user's location
                 placeMarkerOnMap(currentLocation);
 //                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,16 +19,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AddALocation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -35,6 +41,10 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     String typeOfLocation;
     Location location = new Location();
     String locationAddress;
+
+    TextView locationNameContent;
+    TextView locationAddressContent;
+
 
     private final int IMAGE_REQUEST = 73;
 
@@ -46,6 +56,9 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_a_location);
+
+        locationNameContent = (TextView) findViewById(R.id.location_name_content);
+        locationAddressContent = (TextView) findViewById(R.id.location_address_content);
 
         //Choose type of location
         Spinner spinner = (Spinner) findViewById(R.id.type_of_location);
@@ -61,6 +74,39 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
         //Price and rating
         final RatingBar price = (RatingBar) findViewById(R.id.price_content);
         final RatingBar rating = (RatingBar) findViewById(R.id.rating_content);
+
+
+        Bundle bundle = getIntent().getParcelableExtra("bundle");
+        LatLng currentLocation = bundle.getParcelable("currentLocation");
+
+        location.setLocationID(String.valueOf(currentLocation.latitude)+","+String.valueOf(currentLocation.longitude));
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+            String postalCode = addresses.get(0).getPostalCode();
+            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+            if (knownName != null) {
+                locationNameContent.setText(knownName);
+                location.setLocationName(knownName);
+            } else {
+                locationNameContent.setText(address);
+                location.setLocationName(address);
+            }
+            locationAddressContent.setText(address);
+            location.setLocationAddress(address);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         submitButton = (Button) findViewById(R.id.submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +118,6 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
                 reviewText = (EditText) findViewById(R.id.editTextBox);
                 String reText = reviewText.getText().toString();
 
-                location.setLocationID("1234");
-
-                location.setLocationName("madison");
                 location.setLocationType(typeOfLocation);
                 location.setAvgPrice(price.getRating());
                 location.setAvgRating(rating.getRating());
@@ -105,6 +148,9 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
+
 
     public void uploadImage(View view){
         Intent intent = new Intent(this, Image.class);
