@@ -37,7 +37,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
         InfoData infoWindowData = (InfoData) marker.getTag();
 
-
+        details_tv.setText(infoWindowData.getAddress());
         hotel_tv.setText(infoWindowData.getHotel());
         food_tv.setText(infoWindowData.getFood());
 

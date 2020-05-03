@@ -98,7 +98,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         ContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MapHomePage.this, AccountPage.class));
+                startActivity(new Intent(MapHomePage.this, Friends.class));
             }
         });
         ListButton.setOnClickListener(new View.OnClickListener() {
@@ -194,13 +194,18 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                                         InfoData info = new InfoData();
 
                                                         pasID = lo.getLocationID();
-//                                                        name = lo.getLocationName();
-//                                                        Type = lo.getLocationType();
-//                                                        image = lo.getPhotos().get(0);
+                                                        String pasID = lo.getLocationID();
+                                                        Log.w("LocationID",pasID);
+                                                        String name = lo.getLocationName();
+                                                        String Type = lo.getLocationType();
+                                                        String address = lo.getLocationAddress();
 
-                                                        info.setImage("snowqualmie");
-                                                        info.setHotel("Type: attraction");
-                                                        info.setFood("Rating : *****");
+                                                        double rate = lo.getAvgRating();
+                                                        double price = lo.getAvgPrice();
+//                                                        info.setImage(image);
+                                                        info.setHotel("Type: attraction "+ Type);
+                                                        info.setFood("Rating : " +rate);
+                                                        info.setAddres("Address " + address);
 
                                                         CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapHomePage.this);
                                                         mMap.setInfoWindowAdapter(customInfoWindow);
@@ -228,7 +233,6 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
-                                //startActivity(new Intent(MapHomePage.this, LocationInfo.class));
                                 startActivity(LocationInfoIntent);
                             }
                         });

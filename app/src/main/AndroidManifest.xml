@@ -58,6 +58,7 @@
         <activity android:name=".SignUp2" />
         <activity android:name=".SignUp3" />
         <activity android:name=".LocationInfo" />
+        <activity android:name=".Friends" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

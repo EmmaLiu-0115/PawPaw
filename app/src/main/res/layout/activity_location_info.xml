@@ -18,14 +18,17 @@
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:layout_marginLeft="170dp"
-
+            android:textColor="@color/pink"
             android:text="PawPaw" />
 
         <Button
             android:id="@+id/BacktoMap"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Back" />
+            android:layout_width="53dp"
+            android:layout_height="33dp"
+            android:background="@color/white"
+            android:text="X"
+            android:textColor="@color/pink"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/location_name"
@@ -33,7 +36,7 @@
             android:layout_height="45dp"
             android:background="@color/common_google_signin_btn_text_dark_default"
             android:gravity="left"
-            android:textColor="@android:color/black"
+            android:textColor="@color/pink"
             android:textSize="24sp" />
 
         <HorizontalScrollView
@@ -107,7 +110,7 @@
             android:layout_height="46dp"
             android:gravity="left"
             android:text="Type:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/pink"
             android:textSize="24sp" />
 
         <TextView
@@ -116,13 +119,14 @@
             android:layout_height="50dp"
             android:gravity="left"
             android:text="Rating:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/pink"
             android:textSize="24sp" />
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="252dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            />
 
         <TextView
             android:id="@+id/location_price"
@@ -130,7 +134,7 @@
             android:layout_height="45dp"
             android:gravity="left"
             android:text="Price:"
-            android:textColor="@android:color/black"
+            android:textColor="@color/pink"
             android:textSize="24sp" />
 
 
