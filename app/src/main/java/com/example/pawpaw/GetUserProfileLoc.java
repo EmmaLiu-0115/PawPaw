@@ -43,6 +43,7 @@ public class GetUserProfileLoc extends AppCompatActivity {
         String Img = prefs.getString("edit_text_preference_10", "");
         int DefPrivacy = 1;
         Database database = new Database(this);
+
         User user = new User(phone, name, location, "1234", phone, description, DefPrivacy, Img);
         database.addUserToDB(user);
         goToNext();

@@ -1,5 +1,6 @@
 package com.example.pawpaw;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,26 +8,53 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class AccountPage extends AppCompatActivity {
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
     Database db = new Database(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Database database = new Database(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor editor = prefs.edit();
         //database.
+        String phone = prefs.getString("edit_text_preference_3",  "");
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = firebaseFirestore.collection("users").document(phone);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                String name = user.getName();
+                String State = user.getArea();
+                String Description = user.getIntro();
+                String Image = user.getImage();
+                editor.putString("edit_text_preference_6", State);
+                editor.putString("edit_text_preference_4", name);
+                editor.putString("edit_text_preference_5", Description);
+                editor.putString("edit_text_preference_10", Image);
+                //TODO: Call the function which uses user info from the other class
+            }
+        });
 
         //Now I need to update the database
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String phone = prefs.getString("edit_text_preference_3",  "");
-        SharedPreferences.Editor editor = prefs.edit();
-        //TODO
+
         database.getUserFromDB(phone);
         editor.commit();
 
@@ -38,18 +66,38 @@ public class AccountPage extends AppCompatActivity {
         String description = prefs.getString("edit_text_preference_5",  "");
         String location = prefs.getString("edit_text_preference_6",  "");
         String Img = prefs.getString("edit_text_preference_10", "");
-        Uri MyImg = Uri.parse(Img);
+        String locationAddress = "images/"+Img;
+        StorageReference storageReference = storage.getReference();
+        //Uri MyImg = Uri.parse(Img);
         Bundle bundle = getIntent().getExtras();
         NameText = (TextView) findViewById(R.id.profile_name);
         PhoneText = (TextView) findViewById(R.id.phone);
         DescriptionText = (TextView) findViewById(R.id.info);
         Location = (TextView) findViewById(R.id.location);
-        ProfilePic = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile_image);
+        storageReference.child(locationAddress).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                helper(uri.toString());
+                // Got the download URL for 'users/me/profile.png'
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
         NameText.setText(name);
         PhoneText.setText(phone);
         DescriptionText.setText(description);
         Location.setText(location);
-        Picasso.with(this).load(MyImg).into(ProfilePic);
+        //Picasso.with(this).load(MyImg).into(ProfilePic);
+    }
+    private void helper(String uri){
+        View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
+        //ImageView image = view1.findViewById(R.id.images);
+        ProfilePic = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile_image);
+        ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(uri, ProfilePic);
+        imageLoadAsyncTask.execute();
     }
 
     public void clickFunction (View view){
@@ -75,7 +123,10 @@ public class AccountPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    public void clickFunction5 (View view){
+        Intent intent = new Intent(this, MapHomePage.class);
+        startActivity(intent);
+    }
 
     TextView NameText;
     TextView PhoneText;
@@ -95,6 +146,8 @@ public class AccountPage extends AppCompatActivity {
         //TODO update db
         Database database = new Database(this);
         database.updateUserInDB(phone, "name", name);
+        database.updateUserInDB(phone, "area", location);
+        database.updateUserInDB(phone, "intro", description);
         NameText = (TextView) findViewById(R.id.profile_name);
         PhoneText = (TextView) findViewById(R.id.phone);
         DescriptionText = (TextView) findViewById(R.id.info);
@@ -104,7 +157,7 @@ public class AccountPage extends AppCompatActivity {
         DescriptionText.setText(description);
         Location.setText(location);
 
-        db.getUserFromDB("123");
+
         //REMEMBER TO UPDATE THE SERVER AFTER UPDATING SETTINGS
     }
 
