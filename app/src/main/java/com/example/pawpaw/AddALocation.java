@@ -103,7 +103,7 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
             String postalCode = addresses.get(0).getPostalCode();
-            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+            String knownName = addresses.get(0).getFeatureName();; // Only if available else return NULL
             if (knownName != null) {
                 locationNameContent.setText(knownName);
                 location.setLocationName(knownName);

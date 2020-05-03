@@ -32,8 +32,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapHomePage extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, LocationListener {
 
@@ -123,13 +125,16 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMinZoomPreference(11);
 
-        LatLng snowqualmie = new LatLng(43.0712741,-89.3911507);
+        final LatLng snowqualmie = new LatLng(43.0712741,-89.3911507);
 
         final ArrayList<com.example.pawpaw.Location> LocationMarker= new ArrayList<>();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         Log.w("MapHomePage","count1");
-        //Call the get method
+
+
+
+        //TODO: Change snowqualmie to current location
         database.collection("locations")
                 .whereLessThan("longitude", snowqualmie.longitude + 1.0)
                 .whereGreaterThan("longitude", snowqualmie.longitude-1.0)
@@ -148,11 +153,15 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                 Log.d("MapHomePage", document.getId() + " => " + document.getData());
                             }
                             Log.d("MapHomePage", String.valueOf(LocationMarker.size()));
-                            MarkerOptions markerOptions = new MarkerOptions();
+
+                            double a;
+                            double b;
                             for(int i = 0 ;i<LocationMarker.size();i++) {
                                 com.example.pawpaw.Location lo = LocationMarker.get(i);
-                                LatLng lc = new LatLng(LocationMarker.get(i).getLongitude(),LocationMarker.get(i).getLatitude());
-                                //Log.d("MapHomePage", lc.longitude +","+lc.latitude);
+                                LatLng lc = new LatLng(LocationMarker.get(i).getLatitude(),LocationMarker.get(i).getLongitude());
+                                Log.d("MapHomePage", lc.longitude +","+lc.latitude);
+                                a = lc.latitude;
+                                b = lc.longitude;
                                 /*
                                 Log.w("check",LocationMarker.get(i).toString());
                                 String recommend = "Recommended by ";
@@ -160,31 +169,38 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                     recommend += lo.getReviewedUsers().get(j) + " ";
                                 }*/
 
-                                markerOptions.position(lc)
-                                        .title(LocationMarker.get(i).getLocationName())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                if (snowqualmie.latitude-1.0<= a && snowqualmie.latitude+1.0>= a ){
+                                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(a,b))
+                                            .title(LocationMarker.get(i).getLocationName())
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
-                                InfoData info = new InfoData();
-                                info.setImage("snowqualmie");
-                                info.setHotel("Type: attraction");
-                                info.setFood("Rating : *****");
+                                    InfoData info = new InfoData();
+                                    info.setImage("snowqualmie");
+                                    info.setHotel("Type: attraction");
+                                    info.setFood("Rating : *****");
 
-                                //CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(this);
-                                //mMap.setInfoWindowAdapter(customInfoWindow);
+                                    CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapHomePage.this);
+                                    mMap.setInfoWindowAdapter(customInfoWindow);
 
-                                Marker m = mMap.addMarker(markerOptions);
-                                m.setTag(info);
-                                m.showInfoWindow();
+                                    Marker m = mMap.addMarker(markerOptions);
+                                    Log.w("MapHomePageaa", lc.latitude +","+lc.longitude);
+                                    m.setTag(info);
+                                    m.showInfoWindow();
+                                }
+
+
 
                             }
-
+                            Log.w("MapHomePageaa", "added");
                         } else {
                             Log.d("MapHomePage", "Error getting documents: ", task.getException());
                         }
                     }
                 });
 
-        Log.w("MapHomePage","count3");
+
+
+        Log.w("MapHomePage","count4");
         mMap.moveCamera(CameraUpdateFactory.newLatLng(snowqualmie));
     }
 
@@ -198,6 +214,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         // 2
         mMap.addMarker(markerOptions);
     }
+
     private void setUpMap() {
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
