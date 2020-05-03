@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="#F4A9C4"
     tools:context=".MainActivity">
 
     <Button
@@ -53,9 +53,9 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="90dp"
-        android:layout_height="100dp"
-        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
