@@ -21,6 +21,7 @@ public class GetUserProfileLoc extends AppCompatActivity {
     }
     public void goToNext (){
         Intent intent = new Intent(this, AccountPage.class);
+        intent.putExtra("newUSer", "1");
         startActivity(intent);
     }
     public void clickFunction (View view){

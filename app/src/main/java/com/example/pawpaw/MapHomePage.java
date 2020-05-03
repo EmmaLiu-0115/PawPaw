@@ -148,6 +148,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         Log.w("MapHomePage","count1");
 
 
+
         final Intent LocationInfoIntent;
         LocationInfoIntent = new Intent(MapHomePage.this, LocationInfo.class);
         fusedLocationClient.getLastLocation()
@@ -210,17 +211,22 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                                         CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapHomePage.this);
                                                         mMap.setInfoWindowAdapter(customInfoWindow);
 
-                                                        Marker m = mMap.addMarker(markerOptions);
-                                                        Log.w("MapHomePageaa", lc.latitude +","+lc.longitude);
-                                                        m.setTag(info);
-                                                        m.showInfoWindow();
+                                                        if (getIntent().getExtras() == null || getIntent().getExtras().getString("newUser").equals("0")){
+                                                            Marker m = mMap.addMarker(markerOptions);
+                                                            m.setSnippet(pasID);
+                                                            Log.w("MapHomePageaa", lc.latitude +","+lc.longitude);
+                                                            m.setTag(info);
+                                                            //m.showInfoWindow();
+                                                        }
+
+
                                                     }
                                                 }
                                                 Log.w("MapHomePageaa", "added");
 
 //                                                Bundle args = new Bundle();
                                                 //args.putString("LocationID", pasID);
-                                                LocationInfoIntent.putExtra("LocationID",pasID);
+
                                             } else {
                                                 Log.d("MapHomePage", "Error getting documents: ", task.getException());
                                             }
@@ -233,6 +239,7 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
+                                LocationInfoIntent.putExtra("LocationID",marker.getSnippet());
                                 startActivity(LocationInfoIntent);
                             }
                         });

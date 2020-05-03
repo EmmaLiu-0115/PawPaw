@@ -194,8 +194,6 @@ public class Database {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User user = documentSnapshot.toObject(User.class);
 
-                //TODO: Call the function which uses user info from the other class
-                ap.getUserData(user);
 
                 Log.d(TAG, "Successfully get user from database");
             }

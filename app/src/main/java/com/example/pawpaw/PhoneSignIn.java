@@ -43,7 +43,9 @@ public class PhoneSignIn extends AppCompatActivity {
         editor.putString("edit_text_preference_3", FinalPhone);
         editor.commit();
         //startActivity(new Intent(this, AccountPage.class));
-        startActivity(new Intent(this, MapHomePage.class));
+        Intent i = new Intent(this, MapHomePage.class);
+        i.putExtra("newUser","0");
+        startActivity(i);
     }
 
     private static boolean validatePhoneNumber(String phoneNo) {

@@ -36,13 +36,21 @@ public class Friends extends AppCompatActivity {
     String userid;
     List<String> FrinedID = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    Button myAccount;
 
-//    String[] months={"Janaury","Feb","March","April","May","June","July","August","September","Octomber","November","December"};
+    //    String[] months={"Janaury","Feb","March","April","May","June","July","August","September","Octomber","November","December"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends);
         back = findViewById(R.id.button);
+        myAccount = findViewById(R.id.account_page_button);
+        myAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Friends.this, AccountPage.class));
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,35 +60,25 @@ public class Friends extends AppCompatActivity {
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Friends.this);
         userid = preferences.getString("edit_text_preference_3", "Eileen");
+        Log.d("Friends", userid);
         DocumentReference docRef = database.collection("friends").document(userid);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                final Friend friend = documentSnapshot.toObject(Friend.class);
-                final ArrayList<Friend> result= new ArrayList<>();
-                database.collection("friends")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        result.add(document.toObject(Friend.class));
-                                    }
-                                }
-                            }
-                        });
-                for (int i = 0; i < result.size();i++){
-                    FrinedID.add(result.get(i).getUser1ID());
-                    Log.w("FriendID",result.get(i).getUser1ID());
-                }
+                Friend friend = documentSnapshot.toObject(Friend.class);
+                Log.d("Friends", friend.getUser1ID());
+                //TODO: Call the function which uses friend info from the other class
+                lst= (ListView) findViewById(R.id.list);
+                ArrayAdapter<String> arrayadapter=new ArrayAdapter<String>(Friends.this,android.R.layout.simple_list_item_1,friend.getUser2IDs());
+                lst.setAdapter(arrayadapter);
 
+                Log.d("Friends", "Successfully get friends from database");
             }
         });
 
-        lst= (ListView) findViewById(R.id.list);
-        ArrayAdapter<String> arrayadapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,FrinedID);
-        lst.setAdapter(arrayadapter);
+    }
 
+    public void gotoAccountPage(View view){
+        startActivity(new Intent(Friends.this,AccountPage.class));
     }
 }

@@ -6,7 +6,7 @@
             android:key="edit_text_preference_1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:dialogTitle="Enter a new password"
             android:dialogMessage="Please make sure the password is secure"
             android:title="Enter New Password"
@@ -17,7 +17,7 @@
             android:key="edit_text_preference_2"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:dialogTitle="Confirm the new password"
             android:dialogMessage="Please make sure the password is secure"
             android:dependency="edit_text_preference_1"
@@ -29,7 +29,7 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="switch_preference_1"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:title="Activity Status"
             android:summary="Turn location services on or off"/>
     </PreferenceCategory>
@@ -37,7 +37,7 @@
         <EditTextPreference
             android:defaultValue=""
             android:dialogTitle="Edit your profile name"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:inputType="textPersonName"
             android:key="edit_text_preference_4"
             android:selectAllOnFocus="true"
@@ -46,7 +46,7 @@
             android:title="Edit name" />
         <EditTextPreference
             android:defaultValue=""
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:key="edit_text_preference_3"
             android:selectAllOnFocus="true"
             android:singleLine="true"
@@ -56,7 +56,7 @@
             android:inputType="text"/>
         <EditTextPreference
             android:defaultValue="Default value"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:key="edit_text_preference_6"
             android:dialogTitle="Enter a new location"
             android:selectAllOnFocus="true"
@@ -67,7 +67,7 @@
         <EditTextPreference
             android:defaultValue=""
             android:key="edit_text_preference_5"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/logo"
             android:selectAllOnFocus="true"
             android:singleLine="false"
             android:title="Edit Description"
