@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,14 +67,13 @@ public class AccountPage extends AppCompatActivity {
         String description = prefs.getString("edit_text_preference_5",  "");
         String location = prefs.getString("edit_text_preference_6",  "");
         String Img = prefs.getString("edit_text_preference_10", "");
-        String locationAddress = "images/"+Img;
-        StorageReference storageReference = storage.getReference();
-        //Uri MyImg = Uri.parse(Img);
+        String locationAddress = Img;
         Bundle bundle = getIntent().getExtras();
         NameText = (TextView) findViewById(R.id.profile_name);
         PhoneText = (TextView) findViewById(R.id.phone);
         DescriptionText = (TextView) findViewById(R.id.info);
         Location = (TextView) findViewById(R.id.location);
+        StorageReference storageReference = storage.getReference();
         storageReference.child(locationAddress).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -95,8 +95,8 @@ public class AccountPage extends AppCompatActivity {
     private void helper(String uri){
         View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
         //ImageView image = view1.findViewById(R.id.images);
-        ProfilePic = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile_image);
-        ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(uri, ProfilePic);
+        ImageView image = findViewById(R.id.ProfilePic);
+        ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(uri, image);
         imageLoadAsyncTask.execute();
     }
 
@@ -132,7 +132,7 @@ public class AccountPage extends AppCompatActivity {
     TextView PhoneText;
     TextView DescriptionText;
     TextView Location;
-    de.hdodenhof.circleimageview.CircleImageView ProfilePic;
+    //de.hdodenhof.circleimageview.CircleImageView ProfilePic;
     @Override
     public void onResume() {
         super.onResume();

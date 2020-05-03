@@ -46,6 +46,7 @@ public class GetUserProfileLoc extends AppCompatActivity {
 
         User user = new User(phone, name, location, "1234", phone, description, DefPrivacy, Img);
         database.addUserToDB(user);
+        database.updateUserInDB(phone, "image", Img);
         goToNext();
     }
 }

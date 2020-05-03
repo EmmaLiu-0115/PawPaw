@@ -111,6 +111,10 @@ public class ProfileImage extends AppCompatActivity {
 
     public void clickFunction(View view) {
         //goToNext();
+        if (locationAddress.isEmpty()) {
+            Toast.makeText(ProfileImage.this, "Select an image", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = new Intent(this, GetUserProfileLoc.class);
         startActivity(intent);
     }
