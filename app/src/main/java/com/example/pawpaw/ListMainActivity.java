@@ -21,10 +21,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -60,8 +66,78 @@ public class ListMainActivity extends AppCompatActivity {
         final List<Reviews> result = new ArrayList<>();
 
         //Initiate the real firestore database
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
+        final LatLng currentLocation = new LatLng(43.0712741,-89.3911507);
+        String userID1 = "Eileen";
+        DocumentReference docRef = database.collection("friends").document(userID1);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final Friend friend = documentSnapshot.toObject(Friend.class);
+
+                final ArrayList<com.example.pawpaw.Location> result= new ArrayList<>();
+                //TODO: Call the function which uses friend info from the other class
+                database.collection("locations")
+                        .whereLessThan("longitude", currentLocation.longitude + 1.0)
+                        .whereGreaterThan("longitude", currentLocation.longitude-1.0)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        //Put all results that we get from database in result list
+                                        result.add(document.toObject(com.example.pawpaw.Location.class));
+
+                                        Log.d("ListMainActivity", document.getId() + " => " + document.getData());
+                                    }
+                                    Log.d("ListMainActivity", String.valueOf(result.size()));
+
+                                    double a;
+                                    double b;
+                                    for(int i = 0 ;i<result.size();i++) {
+                                        com.example.pawpaw.Location lo = result.get(i);
+                                        LatLng lc = new LatLng(result.get(i).getLatitude(),result.get(i).getLongitude());
+                                        Log.d("MapHomePage", lc.longitude +","+lc.latitude);
+                                        a = lc.latitude;
+                                        b = lc.longitude;
+                                        if (currentLocation.latitude-1.0<= a && currentLocation.latitude+1.0>= a ){
+                                            for (int j = 0; j<result.get(i).getReviewedUsers().size();j++){
+                                                for (int k = 0; k<friend.getUser2IDs().size();k++){
+                                                    if (friend.getUser2IDs().get(k).equals(result.get(i).getReviewedUsers().get(j))){
+                                                        locationNames.add(result.get(i).getLocationName());
+                                                        locationImages.add(result.get(i).getPhotos().get(j));
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+                                        back= findViewById(R.id.button4);
+                                        back.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                startActivity(new Intent(ListMainActivity.this, MapHomePage.class));
+                                            }
+                                        });
+                                        ListMainActivity.CursorAdapter cursorAdapter = new ListMainActivity.CursorAdapter();
+
+                                        listView.setAdapter(cursorAdapter);
+                                    }
+                                    Log.w("ListMainActivity", "added");
+                                } else {
+                                    Log.d("ListMainActivity", "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+
+                Log.d("ListMainActivity", "Successfully get friends from database");
+            }
+        });
+
+        /*
         //Call the get method
         database.collection("reviews")
                 .whereEqualTo("locationID", locationId)
@@ -103,7 +179,7 @@ public class ListMainActivity extends AppCompatActivity {
                             Log.d("ListMainActivity", "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                });*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

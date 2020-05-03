@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,12 +49,17 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private FloatingActionButton ListButton;
     private FloatingActionButton ContactButton;
     private LatLng currentLocation;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_home_page);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -64,6 +71,9 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
+
+
+
         LogoButton = (FloatingActionButton) findViewById(R.id.logo);
         ContactButton = (FloatingActionButton) findViewById(R.id.contact);
         ListButton = (FloatingActionButton) findViewById(R.id.list);
@@ -128,80 +138,78 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         final LatLng snowqualmie = new LatLng(43.0712741,-89.3911507);
 
         final ArrayList<com.example.pawpaw.Location> LocationMarker= new ArrayList<>();
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         Log.w("MapHomePage","count1");
 
 
-
-        //TODO: Change snowqualmie to current location
-        database.collection("locations")
-                .whereLessThan("longitude", snowqualmie.longitude + 1.0)
-                .whereGreaterThan("longitude", snowqualmie.longitude-1.0)
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(final Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            Log.w("MapHomePage",location.getLatitude() +"," +location.getLongitude()+"test");
+                            //TODO: Change snowqualmie to current location
+                            database.collection("locations")
+                                    .whereLessThan("longitude", location.getLongitude() + 1.0)
+                                    .whereGreaterThan("longitude", location.getLongitude()-1.0)
 //                .whereGreaterThan("latitude",snowqualmie.latitude-1)
 //                .whereLessThan("latitude",snowqualmie.latitude+1)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Log.w("MapHomePage","count2");
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Put all results that we get from database in result list
-                                LocationMarker.add(document.toObject(com.example.pawpaw.Location.class));
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.w("MapHomePage","count2");
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Put all results that we get from database in result list
+                                                    LocationMarker.add(document.toObject(com.example.pawpaw.Location.class));
 
-                                Log.d("MapHomePage", document.getId() + " => " + document.getData());
-                            }
-                            Log.d("MapHomePage", String.valueOf(LocationMarker.size()));
+                                                    Log.d("MapHomePage", document.getId() + " => " + document.getData());
+                                                }
+                                                Log.d("MapHomePage", String.valueOf(LocationMarker.size()));
 
-                            double a;
-                            double b;
-                            for(int i = 0 ;i<LocationMarker.size();i++) {
-                                com.example.pawpaw.Location lo = LocationMarker.get(i);
-                                LatLng lc = new LatLng(LocationMarker.get(i).getLatitude(),LocationMarker.get(i).getLongitude());
-                                Log.d("MapHomePage", lc.longitude +","+lc.latitude);
-                                a = lc.latitude;
-                                b = lc.longitude;
-                                /*
-                                Log.w("check",LocationMarker.get(i).toString());
-                                String recommend = "Recommended by ";
-                                for (int j = 0; j<lo.getReviewedUsers().size(); j++){
-                                    recommend += lo.getReviewedUsers().get(j) + " ";
-                                }*/
+                                                double a;
+                                                double b;
+                                                for(int i = 0 ;i<LocationMarker.size();i++) {
+                                                    com.example.pawpaw.Location lo = LocationMarker.get(i);
+                                                    LatLng lc = new LatLng(LocationMarker.get(i).getLatitude(),LocationMarker.get(i).getLongitude());
+                                                    Log.d("MapHomePage", lc.longitude +","+lc.latitude);
+                                                    a = lc.latitude;
+                                                    b = lc.longitude;
 
-                                if (snowqualmie.latitude-1.0<= a && snowqualmie.latitude+1.0>= a ){
-                                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(a,b))
-                                            .title(LocationMarker.get(i).getLocationName())
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                                    if (location.getLatitude()-1.0<= a && location.getLatitude()+1.0>= a ){
+                                                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(a,b))
+                                                                .title(LocationMarker.get(i).getLocationName())
+                                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
-                                    InfoData info = new InfoData();
-                                    info.setImage("snowqualmie");
-                                    info.setHotel("Type: attraction");
-                                    info.setFood("Rating : *****");
+                                                        InfoData info = new InfoData();
+                                                        info.setImage("snowqualmie");
+                                                        info.setHotel("Type: attraction");
+                                                        info.setFood("Rating : *****");
 
-                                    CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapHomePage.this);
-                                    mMap.setInfoWindowAdapter(customInfoWindow);
+                                                        CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapHomePage.this);
+                                                        mMap.setInfoWindowAdapter(customInfoWindow);
 
-                                    Marker m = mMap.addMarker(markerOptions);
-                                    Log.w("MapHomePageaa", lc.latitude +","+lc.longitude);
-                                    m.setTag(info);
-                                    m.showInfoWindow();
-                                }
-
-
-
-                            }
-                            Log.w("MapHomePageaa", "added");
-                        } else {
-                            Log.d("MapHomePage", "Error getting documents: ", task.getException());
+                                                        Marker m = mMap.addMarker(markerOptions);
+                                                        Log.w("MapHomePageaa", lc.latitude +","+lc.longitude);
+                                                        m.setTag(info);
+                                                        m.showInfoWindow();
+                                                    }
+                                                }
+                                                Log.w("MapHomePageaa", "added");
+                                            } else {
+                                                Log.d("MapHomePage", "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    });
                         }
+                        Log.w("MapHomePage","count4");
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
                     }
                 });
-
-
-
-        Log.w("MapHomePage","count4");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(snowqualmie));
     }
 
     @Override
@@ -275,4 +283,6 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     public boolean onMarkerClick(Marker marker) {
         return false;
     }
+
+
 }
