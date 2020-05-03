@@ -137,49 +137,6 @@ public class ListMainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        //Call the get method
-        database.collection("reviews")
-                .whereEqualTo("locationID", locationId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Put all results that we get from database in result list
-                                result.add(document.toObject(Reviews.class));
-
-                                Log.d("ListMainActivity", document.getId() + " => " + document.getData());
-                            }
-
-                            //Write logics of how to use the result list
-                            for (int i = 0; i<result.size(); i++){
-                                String name = result.get(i).getLocationName();
-                                locationNames.add(name);
-                                Log.w("lma", name);
-                                Log.w("size of locationImages", String.valueOf(locationNames.size()));
-                                locationImages.add(result.get(i).getPhoto());
-                                Log.w("lma", result.get(i).getPhoto());
-                                Log.w("size of locationImages", String.valueOf(locationImages.size()));
-                            }
-
-                            back= findViewById(R.id.button4);
-                            back.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(ListMainActivity.this, MapHomePage.class));
-                                }
-                            });
-                            ListMainActivity.CursorAdapter cursorAdapter = new ListMainActivity.CursorAdapter();
-
-                            listView.setAdapter(cursorAdapter);
-
-                        } else {
-                            Log.d("ListMainActivity", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

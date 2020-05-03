@@ -11,24 +11,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:background="@color/borderColor"
-            android:gravity="center"
-            android:text="Pawpaw"
-            android:textColor="@android:color/black"
-            android:textSize="36sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginLeft="170dp"
+            android:text="PawPaw" />
+
+        <Button
+            android:id="@+id/BacktoMap"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Back" />
 
         <TextView
+            android:id="@+id/location_name"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/common_google_signin_btn_text_dark_default"
             android:gravity="left"
-            android:text="Location Name"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
         <HorizontalScrollView
+            android:id="@+id/imageview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="20dp">
@@ -66,54 +70,10 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:gravity="left"
-            android:text="Recommendations:"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/ic_launcher" />
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="20dp"
-                    android:src="@mipmap/ic_launcher" />
-
-            </LinearLayout>
-        </HorizontalScrollView>
 
         <TextView
+            android:id="@+id/location_type"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:gravity="left"
@@ -122,6 +82,7 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/location_rating"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left"
@@ -130,6 +91,7 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/location_price"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="left"
