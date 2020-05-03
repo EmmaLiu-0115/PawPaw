@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -85,7 +87,10 @@ public class AddALocation extends AppCompatActivity implements AdapterView.OnIte
 
         Bundle bundle = getIntent().getParcelableExtra("bundle");
         LatLng currentLocation = bundle.getParcelable("currentLocation");
-        //TODO: get userID from intent
+        //get userID from intent
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AddALocation.this);
+        //userID = preferences.getString("edit_text_preference_3", "Eileen");
+
         userID = "Eileen";
 
         location.setLocationID(String.valueOf(currentLocation.latitude)+","+String.valueOf(currentLocation.longitude));
