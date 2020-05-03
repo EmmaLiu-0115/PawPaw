@@ -42,7 +42,8 @@ public class PhoneSignIn extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("edit_text_preference_3", FinalPhone);
         editor.commit();
-        startActivity(new Intent(this, AccountPage.class));
+        //startActivity(new Intent(this, AccountPage.class));
+        startActivity(new Intent(this, MapHomePage.class));
     }
 
     private static boolean validatePhoneNumber(String phoneNo) {

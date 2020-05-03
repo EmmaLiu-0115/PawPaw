@@ -14,6 +14,8 @@
         <item>Jewelry Store</item>
         <item>Shopping Mall</item>
         <item>Spa</item>
+        <item>Leisure</item>
+        <item>Dorm</item>
     </string-array>
     <string name="title_activity_map_home_page">Map</string>
     <string name="title_activity_profile_location">ProfileLocation</string>

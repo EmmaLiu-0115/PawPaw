@@ -39,7 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapHomePage extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, LocationListener {
+public class MapHomePage extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowClickListener, LocationListener {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -50,6 +50,11 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     private FloatingActionButton ContactButton;
     private LatLng currentLocation;
     private FusedLocationProviderClient fusedLocationClient;
+
+    String pasID;
+    String name;
+    String Type;
+    String image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +148,8 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
         Log.w("MapHomePage","count1");
 
 
+        final Intent LocationInfoIntent;
+        LocationInfoIntent = new Intent(MapHomePage.this, LocationInfo.class);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -152,11 +159,10 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                             // Logic to handle location object
                             Log.w("MapHomePage",location.getLatitude() +"," +location.getLongitude()+"test");
                             //TODO: Change snowqualmie to current location
+
                             database.collection("locations")
                                     .whereLessThan("longitude", location.getLongitude() + 1.0)
                                     .whereGreaterThan("longitude", location.getLongitude()-1.0)
-//                .whereGreaterThan("latitude",snowqualmie.latitude-1)
-//                .whereLessThan("latitude",snowqualmie.latitude+1)
                                     .get()
                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
@@ -186,6 +192,12 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
                                                         InfoData info = new InfoData();
+
+                                                        pasID = lo.getLocationID();
+//                                                        name = lo.getLocationName();
+//                                                        Type = lo.getLocationType();
+//                                                        image = lo.getPhotos().get(0);
+
                                                         info.setImage("snowqualmie");
                                                         info.setHotel("Type: attraction");
                                                         info.setFood("Rating : *****");
@@ -200,6 +212,10 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                                                     }
                                                 }
                                                 Log.w("MapHomePageaa", "added");
+
+//                                                Bundle args = new Bundle();
+                                                //args.putString("LocationID", pasID);
+                                                LocationInfoIntent.putExtra("LocationID",pasID);
                                             } else {
                                                 Log.d("MapHomePage", "Error getting documents: ", task.getException());
                                             }
@@ -208,6 +224,14 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
                         }
                         Log.w("MapHomePage","count4");
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(),location.getLongitude())));
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                //startActivity(new Intent(MapHomePage.this, LocationInfo.class));
+                                startActivity(LocationInfoIntent);
+                            }
+                        });
                     }
                 });
     }
@@ -285,4 +309,9 @@ public class MapHomePage extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        startActivity(new Intent(MapHomePage.this, LocationInfo.class));
+
+    }
 }

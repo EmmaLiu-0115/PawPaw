@@ -49,7 +49,8 @@ public class ListdataActivity extends AppCompatActivity {
 
         //image.setImageResource(intent.getIntExtra("image", 0));
         // Get String data from Intent
-        String locationAddress = "images/"+intent.getIntExtra("image", 0);
+        String locationAddress = intent.getStringExtra("image");
+        Log.w("ListdataActivity",locationAddress);
 
         //Display image
         StorageReference storageRef = storage.getReference();
@@ -71,7 +72,7 @@ public class ListdataActivity extends AppCompatActivity {
     //Helper method to display image
     private void helper(String uri){
         View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
-        ImageView image = view1.findViewById(R.id.images);
+        ImageView image = findViewById(R.id.imageView);
 
         ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(uri, image);
         imageLoadAsyncTask.execute();

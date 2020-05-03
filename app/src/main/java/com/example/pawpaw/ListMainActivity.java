@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,15 +100,17 @@ public class ListMainActivity extends AppCompatActivity {
                                     for(int i = 0 ;i<result.size();i++) {
                                         com.example.pawpaw.Location lo = result.get(i);
                                         LatLng lc = new LatLng(result.get(i).getLatitude(),result.get(i).getLongitude());
-                                        Log.d("MapHomePage", lc.longitude +","+lc.latitude);
+                                        Log.d("ListMainActivity", lc.longitude +","+lc.latitude);
                                         a = lc.latitude;
                                         b = lc.longitude;
                                         if (currentLocation.latitude-1.0<= a && currentLocation.latitude+1.0>= a ){
                                             for (int j = 0; j<result.get(i).getReviewedUsers().size();j++){
                                                 for (int k = 0; k<friend.getUser2IDs().size();k++){
                                                     if (friend.getUser2IDs().get(k).equals(result.get(i).getReviewedUsers().get(j))){
-                                                        locationNames.add(result.get(i).getLocationName());
-                                                        locationImages.add(result.get(i).getPhotos().get(j));
+                                                        locationNames.add(result.get(i).getLocationAddress());
+                                                        Log.w("ListMainActivity",i+": " + result.get(i).getLocationAddress());
+                                                        locationImages.add(result.get(i).getPhotos().get(0));
+                                                        Log.w("ListMainActivity",i+": " + result.get(i).getPhotos().get(0));
                                                     }
                                                 }
 
@@ -225,7 +228,8 @@ public class ListMainActivity extends AppCompatActivity {
             name.setText(locationNames.get(i));
 
             // Get String data from Intent
-            String locationAddress = "images/"+locationImages.get(i);
+            String locationAddress = locationImages.get(i);
+            Log.w("ListMainActivity", "location address: " + locationAddress);
 
             //Display image
             StorageReference storageRef = storage.getReference();
@@ -233,7 +237,14 @@ public class ListMainActivity extends AppCompatActivity {
             storageRef.child(locationAddress).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
+                    Log.w("ListMainActivity", "downloadURL: " + uri.toString());
                     helper(uri.toString());
+                    View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
+                    ImageView image = view1.findViewById(R.id.images);
+                    Picasso.with(ListMainActivity.this).load(uri.toString()).into(image);
+                    //View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
+                    //ImageView image = view1.findViewById(R.id.images);
+                    //Picasso.with(ListMainActivity.this).load(uri.toString()).into(image);
                     // Got the download URL for the image
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -250,6 +261,7 @@ public class ListMainActivity extends AppCompatActivity {
 
         //Helper method to display image
         private void helper(String uri){
+            Log.w("ListMainActivity", "in helper");
             View view1 = getLayoutInflater().inflate(R.layout.row_data,null);
             ImageView image = view1.findViewById(R.id.images);
 

@@ -62,7 +62,7 @@
     </string-array>
     <string-array name="country_arrays">
         <item>Select Country</item>
-        <item>Afghanistan</item>
+        <item>United States</item>
         <item>Albania</item>
         <item>Algeria</item>
         <item>American Samoa</item>
@@ -289,7 +289,7 @@
         <item>Ukraine</item>
         <item>United Arab Emirates</item>
         <item>United Kingdom</item>
-        <item>United States</item>
+        <item>Afghanistan</item>
         <item>United States Minor Outlying Islands</item>
         <item>Uruguay</item>
         <item>Uzbekistan</item>
@@ -307,7 +307,7 @@
     <string-array name="country_code">
         <item></item>
         <item>
-            +93
+            +1
         </item>
         <item>
            +355
@@ -989,7 +989,7 @@
            +971
         </item>
         <item>
-            +1
+            +93
         </item>
         <item>
             +1
