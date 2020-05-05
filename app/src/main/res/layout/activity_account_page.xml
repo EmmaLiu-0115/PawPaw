@@ -47,7 +47,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jimmy Ma"
+            android:text=""
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:textSize="19sp"/>
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="+345 123 1092"/>
+                android:text=""/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="25dp"
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Madison, Wi, USA"/>
+                android:text=""/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="25dp"
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="Hello everyone"/>
+                android:text=""/>
         </LinearLayout>
     </LinearLayout>
 

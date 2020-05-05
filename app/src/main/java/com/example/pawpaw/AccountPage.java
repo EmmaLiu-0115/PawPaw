@@ -122,11 +122,16 @@ public class AccountPage extends AppCompatActivity {
     }
 
     public void clickFunction5 (View view){
-        String newUser = getIntent().getExtras().getString("newUser");
-        Intent intent = new Intent(this, MapHomePage.class);
-        intent.putExtra("newUser",newUser);
+        if (getIntent().getExtras() != null){
+            String newUser = getIntent().getExtras().getString("newUser");
+            Intent intent = new Intent(this, MapHomePage.class);
+            intent.putExtra("newUser",newUser);
 
-        startActivity(intent);
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(this, MapHomePage.class));
+        }
+
     }
 
     TextView NameText;
